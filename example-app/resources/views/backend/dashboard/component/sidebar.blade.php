@@ -24,7 +24,7 @@
                 <a href="javascript:void(0)"><i class="fa fa-th-large"></i> <span class="nav-label">Quản Lý Thành Viên</span> <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li><a href="index.html">QL Nhóm Thành Viên</a></li>
-                    <li><a href="index.html">QL Thành Viên</a></li>
+                    <li><a href="{{ route('user.index') }}">QL Thành Viên</a></li>
                 </ul>
             </li>
         </ul>

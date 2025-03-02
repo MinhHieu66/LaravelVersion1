@@ -1,5 +1,10 @@
 <?php
 return [
-    'title'        => 'Quản lý Thành Viên',
-    'tableHeading' => 'Danh sách thành viên',
+    'index'  => [
+        'title' => 'Quản lý thành viên',
+        'table' => 'Danh sách thành viên',
+    ],
+    'create' => [
+        'title' => 'Thêm mới thành viên',
+    ],
 ];

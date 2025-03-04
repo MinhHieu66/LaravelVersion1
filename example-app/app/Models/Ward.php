@@ -3,6 +3,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Ward extends Model
 {
@@ -13,5 +14,12 @@ class Ward extends Model
         'name',
     ];
 
-    protected $table = 'wards';
+    protected $table      = 'wards';
+    protected $primaryKey = 'code';
+    public $incrementing  = false;
+
+    public function district(): BelongsTo
+    {
+        return $this->belongsTo(District::class, 'district_code', 'code');
+    }
 }

@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreUserRequest;
 use App\Repositories\Interfaces\ProvinceRepositoryInterface as ProvinceServive;
 use App\Services\Interfaces\UserServiceInterface as UserServive;
 
@@ -47,5 +48,13 @@ class UserController extends Controller
         $config['seo'] = config('apps.user');
         $template      = 'backend.user.create';
         return view('backend.dashboard.layout', compact('template', 'config', 'provinces'));
+    }
+
+    public function store(StoreUserRequest $request)
+    {
+        if ($this->userServive->create($request)) {
+            return redirect()->route('user.index')->with('message', 'Thêm mới bản ghi thành công.');
+        }
+        return redirect()->route('user.index')->with('message', 'Thêm mới bản ghi không thành công. Hãy thử lại.');
     }
 }

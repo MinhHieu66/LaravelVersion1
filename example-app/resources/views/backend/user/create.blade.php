@@ -1,5 +1,15 @@
 @include('backend.dashboard.component.breadcrumb', ['title' => $config['seo']['create']['title']])
-<form action="" method="" class="box">
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+<form action="{{ route('user.store') }}" method="POST" class="box">
+    @csrf
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
             <div class="col-lg-5">
@@ -21,9 +31,9 @@
                                         <span class="text-danger">(*)</span>
                                     </label>
                                     <input 
-                                        type="email" 
+                                        type="text" 
                                         name="email" 
-                                        value="" 
+                                        value="{{ old('email') }}" 
                                         class="form-control" 
                                         placeholder="" 
                                         autocomplete="off"
@@ -38,7 +48,7 @@
                                     <input 
                                         type="text" 
                                         name="name" 
-                                        value="" 
+                                        value="{{ old('name') }}" 
                                         class="form-control" 
                                         placeholder="" 
                                         autocomplete="off"
@@ -46,16 +56,23 @@
                                 </div>
                             </div>                       
                         </div>
+                        @php
+                         $userCategory = [
+                            '[Chọn nhóm thành viên]',
+                            'Quản trị viên',
+                            'Cộng tác viên'
+                         ]   
+                        @endphp
                         <div class="row mb15">
                             <div class="col-lg-6">
                                 <div class="form-row">
                                     <label for="" class="control-label text-left">Nhóm thành viên
                                         <span class="text-danger">(*)</span>
                                     </label>
-                                    <select name="user_category_id" id="" class="form-control">
-                                        <option value="0">[Chọn nhóm thành viên]</option>
-                                        <option value="1">Quản trị viên</option>
-                                        <option value="2">Cộng tác viên</option>
+                                    <select name="user_category_id" id="" class="form-control setupSelect2">
+                                       @foreach ($userCategory as $key => $item)
+                                       <option @selected((int) old('user_category_id') === (int) $key) value="{{ $key }}">{{ $item }}</option>
+                                       @endforeach        
                                     </select>
                                 </div>
                             </div>
@@ -63,9 +80,9 @@
                                 <div class="form-row">
                                     <label for="" class="control-label text-left">Ngày sinh</label>
                                     <input 
-                                        type="text" 
+                                        type="date" 
                                         name="birthday" 
-                                        value="" 
+                                        value="{{ old('birthday') }}" 
                                         class="form-control" 
                                         placeholder="" 
                                         autocomplete="off"
@@ -112,10 +129,11 @@
                                     <input 
                                         type="text" 
                                         name="iamge" 
-                                        value="" 
-                                        class="form-control" 
+                                        value="{{ old('iamge') }}" 
+                                        class="form-control input-image" 
                                         placeholder="" 
                                         autocomplete="off"
+                                        data-upload="Images"
                                     >
                                 </div>
                             </div>                    
@@ -139,11 +157,12 @@
                             <div class="col-lg-6">
                                 <div class="form-row">
                                    <label for="" class="control-label text-left">Thành phố</label>
-                                   <select name="province_id" class="form-control setupSelect2 provinces">
+                                   <select name="province_id" class="form-control setupSelect2 province location" data-target="districts">
                                     <option value="0">[Chọn Thành Phố]</option>
                                     @isset($provinces)
                                         @foreach ($provinces as $province)
-                                        <option value="{{ $province->code }}">{{ $province->name }}</option>
+                                        <option @selected((int) old('province_id') === (int) $province->code)
+                                        value="{{ $province->code }}">{{ $province->name }}</option>
                                         @endforeach
                                     @endisset
                                    </select>
@@ -152,7 +171,7 @@
                             <div class="col-lg-6">
                                 <div class="form-row">
                                     <label for="" class="control-label text-left">Quận/Huyện</label>
-                                    <select name="disitrct_id" class="form-control setupSelect2 disitrcts">
+                                    <select name="district_id" class="form-control setupSelect2 districts location" data-target="wards">
                                         <option value="0">[Chọn Quận/Huyện]</option>
                                     </select> 
                                 </div>
@@ -162,7 +181,7 @@
                             <div class="col-lg-6">
                                 <div class="form-row">
                                    <label for="" class="control-label text-left">Phường/Xã</label>
-                                   <select name="ward_id" class="form-control">
+                                   <select name="ward_id" class="form-control setupSelect2 wards">
                                     <option value="0">[Chọn Phường/Xã]</option>
                                    </select>
                                 </div>
@@ -173,7 +192,7 @@
                                     <input 
                                     type="text" 
                                     name="address" 
-                                    value="" 
+                                    value="{{ old('address') }}" 
                                     class="form-control" 
                                     placeholder="" 
                                     autocomplete="off"
@@ -188,7 +207,7 @@
                                    <input 
                                    type="text" 
                                    name="phone" 
-                                   value="" 
+                                   value="{{ old('phone') }}" 
                                    class="form-control" 
                                    placeholder="" 
                                    autocomplete="off"
@@ -201,7 +220,7 @@
                                     <input 
                                     type="text" 
                                     name="description" 
-                                    value="" 
+                                    value="{{ old('description') }}" 
                                     class="form-control" 
                                     placeholder="" 
                                     autocomplete="off"
@@ -218,3 +237,8 @@
         </div>
     </div>
 </form>
+<script>
+    var province_id = '{{ old('province_id') }}'
+    var district_id = '{{ old('district_id') }}'
+    var ward_id = '{{ old('ward_id') }}'
+</script>

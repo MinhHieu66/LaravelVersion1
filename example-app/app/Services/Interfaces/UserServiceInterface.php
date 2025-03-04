@@ -8,4 +8,5 @@ namespace App\Services\Interfaces;
 interface UserServiceInterface
 {
     public function pagination();
+    public function create($request);
 }

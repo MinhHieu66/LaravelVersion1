@@ -8,4 +8,6 @@ namespace App\Repositories\Interfaces;
 interface DistrictRepositoryInterface
 {
     public function all();
+    public function findById(int $id, array $column, array $relation);
+    // public function findDistrictByProvinceId(int $province_id);
 }

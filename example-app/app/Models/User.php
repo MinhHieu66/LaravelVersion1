@@ -30,7 +30,10 @@ class User extends Authenticatable
         'description',
         'user_agent',
         'ip',
+        'user_category_id',
     ];
+
+    protected $table = 'users';
 
     /**
      * The attributes that should be hidden for serialization.
